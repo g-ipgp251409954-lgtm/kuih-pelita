@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Misi Manis: Tepung Pelita!</title>
+<style>
+*{box-sizing:border-box} :root{--green:#25652c;--dark:#173d1d;--cream:#fff7d9;--yellow:#ffd94f;--red:#e83e51}
+body{margin:0;font-family:"Trebuchet MS",Arial,sans-serif;background:#d6e9b2;color:var(--dark)}
+button{font:inherit;cursor:pointer;border:0}
+.screen{display:none;min-height:100vh;position:relative;overflow:hidden}
+.screen.active{display:flex}
+.landscape{background:linear-gradient(#80d4f4 0%,#c7ecf7 35%,#a8d77a 58%,#467c32 100%);isolation:isolate}
+.landscape:before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 15% 14%,#fff 0 4%,transparent 5%),radial-gradient(ellipse at 25% 12%,#fff 0 5%,transparent 6%),radial-gradient(ellipse at 72% 9%,#fff9c9 0 6%,transparent 7%),linear-gradient(180deg,transparent 48%,#3f8b37 49%,#72b84b 67%,#8e5a32 68%,#d8a16b 100%)}
+.landscape:after{content:"";position:absolute;z-index:-1;left:-5%;right:-5%;bottom:0;height:32%;background:repeating-linear-gradient(90deg,#9e653d 0 3px,#c88b53 3px 95px);border-top:12px solid #e4b57b;transform:perspective(300px) rotateX(3deg);transform-origin:bottom}
+.nav{position:absolute;z-index:10;top:14px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:center}
+.round{width:42px;height:42px;border-radius:50%;background:#2b852d;color:white;font-size:23px;border:3px solid #d9f4a4;box-shadow:0 3px 0 #1b541d}
+.sound{font-size:21px}
+.panel{background:linear-gradient(135deg,#fffce9,#fff0b8);border:5px solid #9c6a2d;border-radius:22px;box-shadow:inset 0 0 0 3px #e7cb7c,0 8px 0 #5e7e2b}
+.wood-title{display:inline-block;background:linear-gradient(#dba15b,#9a5628);color:white;text-shadow:2px 3px #64351e;border:3px solid #75411f;border-radius:30px;padding:12px 24px;box-shadow:0 5px 0 #6a421f;font-weight:1000;transform:rotate(-2deg);text-align:center}
+.home{align-items:center;padding:70px 5vw 35px;gap:20px}
+.home-copy{width:58%;max-width:650px;position:relative;z-index:2;text-align:center}
+.home h1{font-size:clamp(42px,7vw,82px);line-height:.9;color:#fff;text-shadow:4px 5px 0 #27541f,-2px -2px 0 #27541f,2px -2px 0 #27541f,-2px 2px 0 #27541f; margin:24px 0}
+.home h1 span{display:block;color:#c8f07a}
+.home p{font-weight:900;font-size:clamp(15px,2vw,21px);line-height:1.45;max-width:470px;margin:0 auto 22px;text-shadow:0 1px #fff}
+.cta{background:linear-gradient(#ffe77b,#ffbd20);border:4px solid #fff5c5;color:#713600;border-radius:50px;padding:14px 27px;font-weight:1000;font-size:20px;box-shadow:0 5px 0 #9b5c1c,0 8px 12px #2d501f55}
+.cta:hover,.red-btn:hover{transform:translateY(-3px)}
+.mascot{position:relative;z-index:2;width:min(34vw,330px);height:300px;display:grid;place-items:center;align-self:flex-end;animation:bob 3s ease-in-out infinite}
+.cup{width:78%;height:75%;position:relative;background:linear-gradient(90deg,#22722c,#78b936 42%,#2d7d2a);border:7px solid #477c25;border-radius:10px 10px 28px 28px;box-shadow:inset -15px 0 #205c25,0 18px 0 #8b4b23,0 28px 15px #24491d55;transform:perspective(400px) rotate(-5deg)}
+.cup:before{content:"";position:absolute;left:-6px;right:-6px;top:-4px;height:30%;border-radius:15px 15px 45% 45%;background:linear-gradient(#fffef4,#e7e3c5);border:4px solid #d4d5a4}
+.eyes{position:absolute;top:47%;left:0;right:0;display:flex;justify-content:center;gap:34px;z-index:2}.eyes i{height:25px;width:21px;background:#172719;border:4px solid white;border-radius:50%;box-shadow:0 2px 0 #152d13}
+.mouth{position:absolute;top:63%;left:43%;width:34px;height:20px;background:#63251a;border-radius:8px 8px 50% 50%;z-index:3;border:3px solid #fff}
+.cheek{position:absolute;top:61%;left:13%;width:22px;height:14px;background:#ff8b76;border-radius:50%;z-index:2}.cheek.r{left:auto;right:13%}
+.leaf{position:absolute;font-size:48px;filter:drop-shadow(2px 3px 2px #315c2a66)}.l1{top:2%;left:0;transform:rotate(-30deg)}.l2{right:-4%;top:16%;transform:rotate(35deg)}.flower{position:absolute;font-size:35px;right:4%;bottom:18%}
+.intro{flex-direction:column;align-items:center;justify-content:center;padding:80px 20px 40px;text-align:center;gap:22px}
+.intro .wood-title{font-size:clamp(25px,4vw,42px);max-width:90%}
+.food-scene{width:min(750px,94vw);min-height:360px;display:flex;align-items:center;justify-content:center;gap:30px;padding:30px;position:relative}
+.food-scene:before{content:"";position:absolute;inset:0;border-radius:30px;background:radial-gradient(ellipse at center,#fff7c7 0 34%,transparent 35%),linear-gradient(140deg,#72b94b,#e8d69a 55%,#b87c43);border:7px solid #9a642e;box-shadow:inset 0 0 0 4px #f5d18a,0 8px 0 #547c2a}
+.food-bowl{z-index:1;display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;justify-content:center}
+.food{width:110px;height:140px;border-radius:8px 8px 22px 22px;background:linear-gradient(90deg,#216b2d,#6dbb46,#1f6b2c);border:5px solid #437c2b;box-shadow:0 10px 0 #9b5b2b;position:relative;transform:rotate(-3deg)}
+.food:nth-child(2){transform:translateY(-20px) rotate(3deg)}.food:before{content:"";position:absolute;top:0;left:-2px;right:-2px;height:40%;border-radius:5px 5px 50% 50%;background:linear-gradient(#fffef3,#e6e2c8);border-bottom:4px solid #d3d4b2}
+.speech{z-index:2;max-width:210px;background:#fff8d9;border-radius:45% 45% 35% 35%;padding:20px;font-size:15px;line-height:1.5;font-weight:800;box-shadow:0 5px 0 #b7a56a}
+.red-btn{background:linear-gradient(#ff6974,#d92240);color:#fff;border:4px solid white;border-radius:40px;padding:13px 24px;font-weight:1000;font-size:19px;box-shadow:0 5px 0 #8d2630}
+.recipe{flex-direction:column;padding:78px 16px 28px;gap:18px}
+.recipe-title{text-align:center;margin:0 auto}
+.recipe-title .wood-title{font-size:clamp(27px,4vw,42px)}
+.ingredient-layout{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:min(1000px,100%);margin:0 auto}
+.ingredient{padding:18px 22px;background:#fffbe9;border:4px solid #d6c68c;border-radius:20px;box-shadow:inset 0 0 0 2px #fff}
+.ingredient h3{background:linear-gradient(#7eb94a,#397b2c);color:#fff;text-align:center;padding:10px;border-radius:15px;margin:0 0 13px;font-size:17px}
+.ingredient ul{list-style:none;padding:0;margin:0;line-height:1.65;font-weight:700;font-size:14px}
+.ingredient li:before{content:"□";font-size:20px;color:#236b2a;font-weight:1000;margin-right:8px}
+.ingredient li{margin:5px 0}
+.ingredient .decoration{text-align:center;font-size:42px;margin-top:8px}
+.steps-screen{flex-direction:column;padding:78px 12px 22px;gap:17px}
+.steps-grid{width:min(1120px,100%);margin:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.step{background:#fff9df;border:3px solid #d8c88f;border-radius:18px;padding:13px;box-shadow:inset 0 0 0 2px white}
+.step h3{font-size:15px;margin:0 0 8px;color:#245b20}
+.num{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#27722c;color:#fff;margin-right:5px;font-size:16px}
+.step-art{height:90px;display:grid;place-items:center;font-size:54px;background:radial-gradient(ellipse,#e8d78e,#fff5cf 70%);border-radius:14px;margin-bottom:8px}
+.step p{font-size:12px;line-height:1.45;margin:0;font-weight:700}
+.finish{align-items:center;justify-content:center;padding:70px 5vw 35px;gap:25px}
+.finish-copy{width:48%;position:relative;z-index:2;text-align:center}
+.finish-copy .speech{max-width:400px;margin:0 auto 18px;font-size:18px}
+.finish-copy h2{font-size:clamp(30px,4vw,48px);margin:0 0 10px;color:#245b20}
+.tips{background:#ffe17b;border:3px solid #fff1b1;border-radius:15px;padding:17px;text-align:left;box-shadow:0 5px 0 #986125;max-width:400px;margin:0 auto 20px;font-size:14px;line-height:1.6}
+.tips strong{font-size:18px}
+.finish .mascot{width:min(40vw,380px);align-self:center}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(2deg)}}
+@media(max-width:700px){.home{flex-direction:column;padding-top:75px;gap:0}.home-copy{width:100%}.mascot{width:260px;height:240px;align-self:center}.home h1{font-size:50px}.ingredient-layout{grid-template-columns:1fr}.steps-grid{grid-template-columns:1fr 1fr}.food-scene{flex-direction:column;gap:16px}.food{width:75px;height:100px}.speech{max-width:300px}.finish{flex-direction:column}.finish-copy{width:100%}.finish .mascot{width:250px;height:220px}.step-art{height:70px;font-size:40px}.step p{font-size:11px}}
+@media(max-width:430px){.steps-grid{grid-template-columns:1fr}.wood-title{padding:10px 15px}.ingredient{padding:15px}.nav{top:10px}}
+</style></head>
+<body>
+<section class="screen landscape home active" id="home">
+ <div class="nav"><button class="round" onclick="go('home')" aria-label="Halaman utama">⌂</button><button class="round sound" onclick="toggleSound(this)" aria-label="Bunyi">◖))</button></div>
+ <div class="home-copy"><div class="wood-title">Misi Manis:</div><h1>Tepung <span>Pelita!</span></h1><p>Jom terokai kuih tradisional kegemaran kita! Kenali, belajar dan cuba sendiri resepinya!</p><button class="cta" onclick="go('intro')">JOM MULA! ➜</button></div>
+ <div class="mascot"><span class="leaf l1">🍃</span><span class="leaf l2">🌿</span><div class="cup"><div class="eyes"><i></i><i></i></div><div class="cheek"></div><div class="cheek r"></div><div class="mouth"></div></div><span class="flower">🌼</span></div>
+</section>
+<section class="screen landscape intro" id="intro">
+ <div class="nav"><button class="round" onclick="go('home')">⌂</button><button class="round sound" onclick="toggleSound(this)">◖))</button></div>
+ <div class="wood-title">Kenali Kuih<br>Tepung Pelita</div>
+ <div class="food-scene"><div class="food-bowl"><div class="food"></div><div class="food"></div><div class="food"></div></div><div class="speech">Kuih Tepung Pelita ialah kuih tradisional Melayu yang lembut, beraroma pandan, dan berlapis lemak masin santan.</div></div>
+ <button class="red-btn" onclick="go('ingredients')">▤ &nbsp; Lihat Resipi ➜</button>
+</section>
+<section class="screen landscape recipe" id="ingredients">
+ <div class="nav"><button class="round" onclick="go('home')">⌂</button><button class="round sound" onclick="toggleSound(this)">◖))</button></div>
+ <div class="recipe-title"><div class="wood-title">Bahan-Bahan 🌼</div></div>
+ <div class="ingredient-layout">
+  <article class="ingredient"><h3>Lapisan Bawah<br>(Hijau / Pandan)</h3><ul><li>1 cawan tepung beras</li><li>1 cawan gula pasir</li><li>5 cawan air (termasuk air pandan)</li><li>7–8 helai daun pandan (dikisar dan ditapis)</li><li>Sedikit pewarna hijau (jika perlu)</li><li>Gula pasir secubit (diletakkan ke dalam setiap acuan)</li></ul><div class="decoration">🍃 🥣</div></article>
+  <article class="ingredient"><h3>Lapisan Atas<br>(Santan / Putih)</h3><ul><li>4 cawan santan</li><li>5 sudu besar tepung beras</li><li>Garam secukup rasa (agak sedikit masin untuk menyeimbangkan rasa manis)</li></ul><div class="decoration">🥥 🥣</div></article>
+ </div>
+ <div style="text-align:center"><button class="red-btn" onclick="go('steps')">👩‍🍳 Cara Penyediaan ➜</button></div>
+</section>
+<section class="screen landscape steps-screen" id="steps">
+ <div class="nav"><button class="round" onclick="go('home')">⌂</button><button class="round sound" onclick="toggleSound(this)">◖))</button></div>
+ <div class="recipe-title"><div class="wood-title">Cara Penyediaan</div></div>
+ <div class="steps-grid">
+  <article class="step"><h3><span class="num">1</span>Sediakan Acuan Daun Pisang</h3><div class="step-art">🟩 🟩 🟩</div><p>Bentuk daun pisang menjadi takir kecil atau acuan empat segi berukuran kira-kira 4 inci.</p></article>
+  <article class="step"><h3><span class="num">2</span>Masak Lapisan Bawah (Pandan)</h3><div class="step-art">🥣 🥄</div><p>Satukan tepung beras, gula, air pandan dan air biasa. Kacau sehingga pekat dan berkilat. Tutup api.</p></article>
+  <article class="step"><h3><span class="num">3</span>Isi Lapisan Bawah ke Acuan</h3><div class="step-art">🍃 🥣</div><p>Tabur sedikit gula di dasar acuan, kemudian masukkan adunan pandan panas ke dalam acuan sehingga ¾ penuh.</p></article>
+  <article class="step"><h3><span class="num">4</span>Masak Lapisan Atas (Santan)</h3><div class="step-art">🥥 🥄</div><p>Masukkan santan, tepung beras dan garam. Kacau hingga larut dan masak perlahan hingga pekat dan licin.</p></article>
+  <article class="step"><h3><span class="num">5</span>Tuang Lapisan Atas</h3><div class="step-art">🥣 ⬇️ 🟩</div><p>Segera sendukkan adunan santan panas di atas lapisan pandan yang telah dimasukkan ke dalam acuan.</p></article>
+  <article class="step"><h3><span class="num">6</span>Penyejukan</h3><div class="step-art">🍃 ❄️</div><p>Biarkan kuih sejuk pada suhu bilik, kemudian simpan di peti sejuk. Kuih paling enak dinikmati sejuk.</p></article>
+ </div>
+ <div style="text-align:center"><button class="red-btn" onclick="go('finish')">Selesai Memasak! ➜</button></div>
+</section>
+<section class="screen landscape finish" id="finish">
+ <div class="nav"><button class="round" onclick="go('home')">⌂</button><button class="round sound" onclick="toggleSound(this)">◖))</button></div>
+ <div class="finish-copy"><div class="speech"><h2>Selamat Mencuba! 💗</h2>Jangan lupa untuk kongsi hasil masakan kamu dengan keluarga dan kawan-kawan ya!</div><div class="tips"><strong>💡 Petua:</strong><br>✓ Gunakan daun pandan segar untuk aroma yang lebih wangi.<br>✓ Pastikan adunan sentiasa dikacau supaya tidak berketul.<br>✓ Simpan dalam peti sejuk untuk rasa yang lebih sedap.</div><button class="red-btn" onclick="go('home')">⌂ Kembali ke Laman Utama</button></div>
+ <div class="mascot"><span class="leaf l1">🍃</span><span class="leaf l2">💗</span><div class="cup"><div class="eyes"><i></i><i></i></div><div class="cheek"></div><div class="cheek r"></div><div class="mouth"></div></div><span class="flower">✨</span></div>
+</section>
+<script>
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
+function toggleSound(btn){btn.textContent=btn.textContent.includes('×')?'◖))':'◖))×';}
+</script>
+</body></html>
